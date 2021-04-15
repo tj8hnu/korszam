@@ -1,0 +1,20 @@
+﻿  3_hazi.cpp
+D:\VisualStudio\VC\Tools\MSVC\14.28.29333\include\xutility(4393,18): warning C4244: 'argument': conversion from 'double' to 'const _Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+D:\VisualStudio\VC\Tools\MSVC\14.28.29333\include\xutility(4429): message : see reference to function template instantiation '_OutIt std::_Copy_unchecked<double*,_OutIt>(_InIt,_InIt,_OutIt)' being compiled
+          with
+          [
+              _OutIt=std::ostream_iterator<int,char,std::char_traits<char>>,
+              _InIt=double *
+          ]
+D:\mindenis\fizikus szak\mester\4. félév\korszam\3_hazi\3_hazi.cpp(91): message : see reference to function template instantiation '_OutIt std::copy<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,std::ostream_iterator<int,char,std::char_traits<char>>>(_InIt,_InIt,_OutIt)' being compiled
+          with
+          [
+              _OutIt=std::ostream_iterator<int,char,std::char_traits<char>>,
+              _Ty=double,
+              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>
+          ]
+  3_hazi.vcxproj -> D:\mindenis\fizikus szak\mester\4. félév\korszam\3_hazi\Debug\3_hazi.exe
