@@ -10,7 +10,7 @@ D:\VisualStudio\VC\Tools\MSVC\14.28.29333\include\xutility(4429): message : see 
               _OutIt=std::ostream_iterator<int,char,std::char_traits<char>>,
               _InIt=double *
           ]
-D:\mindenis\fizikus szak\mester\4. félév\korszam\3_hazi\3_hazi.cpp(91): message : see reference to function template instantiation '_OutIt std::copy<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,std::ostream_iterator<int,char,std::char_traits<char>>>(_InIt,_InIt,_OutIt)' being compiled
+D:\mindenis\fizikus szak\mester\4. félév\korszam\3_hazi\3_hazi.cpp(98): message : see reference to function template instantiation '_OutIt std::copy<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,std::ostream_iterator<int,char,std::char_traits<char>>>(_InIt,_InIt,_OutIt)' being compiled
           with
           [
               _OutIt=std::ostream_iterator<int,char,std::char_traits<char>>,

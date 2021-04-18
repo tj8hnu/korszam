@@ -8,43 +8,60 @@
 #include <iterator>
 using namespace std;
 
+
+//Numerical parameters
+#define F 900.0
+#define q 1.8
+#define a 200.0
+#define h 35.0
+
+
+
 //Functions
-double shape(double x, double F, double q, double a, double h) {
-	double val = cosh(q / F * x) - cosh(q / 2 * a / F);
+double shape(double x)
+{
+	double val1 = cosh((q/F) * x);
+	double val2 = cosh(q / 2 * a / F);
+	double val = val1 - val2;
 	return F / q * val + h;
 }
 
-double der_shape(double x, double F, double q, double a, double h, double t)
+double der_shape(double x, double t)
 {
-	double val1 = 34 * (shape(x - 2 * t, F, q, a, h) - shape(x + 2 * t, F, q, a, h));
-	double val2 = 64 * (shape(x + t, F, q, a, h) - shape(x - t, F, q, a, h));
-	double val3 = shape(x + 4 * t, F, q, a, h) - shape(x - 4 * t, F, q, a, h);
-	return abs((val1 + val2 + val3) / (360 * t));
+	double val1 = 34 * (shape(x - 2 * t) - shape(x + 2 * t));
+	double val2 = 64 * (shape(x + t) - shape(x - t));
+	double val3 = shape(x + 4 * t) - shape(x - 4 * t);
+	return (val1 + val2 + val3) / (360 * t);
 }
 
-double cent_int(double min, double max, int n, double F, double q, double a, double h, double t)
+double int_shape(double x, double t)
 {
-	double d = (max - min) / n;
-	double val = 0;
-	for (int i = 0; i < n - 1; ++i)
-	{
-		val += der_shape(min + d / 2 + i * d, F, q, a, h, t) * d;
-	}
-	return val;
+	return sqrt(1 + pow(der_shape(x, t),2));
 }
 
-double trap_int(double min, double max, int n, double F, double q, double a, double h, double t)
+double cent_int(double min, double max, int n, double t)
 {
 	double d = (max - min) / n;
 	double val = 0;
 	for (int i = 0; i < n - 1; ++i)
 	{
-		val += 0.5*(der_shape(min + i * d, F, q, a, h, t) + der_shape(min + (i+1) * d, F, q, a, h, t)) * d;
+		val += int_shape(min + d / 2 + i * d, t) * d;
 	}
 	return val;
 }
 
-double simp_int(double min, double max, int n, double F, double q, double a, double h, double t) // https://stackoverflow.com/questions/60005533/composite-simpsons-rule-in-c
+double trap_int(double min, double max, int n, double t)
+{
+	double d = (max - min) / n;
+	double val = 0;
+	for (int i = 0; i < n - 1; ++i)
+	{
+		val += 0.5*(int_shape(min + i * d, t) + int_shape(min + (i+1) * d, t)) * d;
+	}
+	return val;
+}
+
+double simp_int(double min, double max, int n, double t) // https://stackoverflow.com/questions/60005533/composite-simpsons-rule-in-c
 {
 	double d = (max - min) / n;
 
@@ -52,37 +69,27 @@ double simp_int(double min, double max, int n, double F, double q, double a, dou
 	double sum_odds = 0.0;
 	for (int i = 1; i < n; i += 2)
 	{
-		sum_odds += der_shape(min + i * d, F, q, a, h, t);
+		sum_odds += int_shape(min + i * d, t);
 	}
 	double sum_evens = 0.0;
 	for (int i = 2; i < n; i += 2)
 	{
-		int n_simp = 100;
-		sum_evens += der_shape(min + i * d, F, q, a, h, t);
+		sum_evens += int_shape(min + i * d, t);
 	}
 
-	return (der_shape(min, F, q, a, h, t) + der_shape(max, F, q, a, h, t) + 2 * sum_evens + 4 * sum_odds) * d/3;
+	return (int_shape(min, t) + int_shape(max, t) + 2 * sum_evens + 4 * sum_odds) * d/3;
 }
 
 
 int main()
 {
-	//Numerical parameters
-	double F = 900.0;
-	double q = 1.8;
-	double a = 200.0;
-	double h = 35.0;
+	double t = 200.0 / 10000;
+	int n_cent = 10000;
+	int n_trap = 10000;
+	int n_simp = 10000;
 
 
-
-	double t = sqrt(DBL_EPSILON);
-	int n_cent = 100;
-	int n_trap = 100;
-	int n_simp = 100;
-
-
-
-	std::vector<double> data = {cent_int(0, a, n_cent, F, q, a, h, t), trap_int(0, a, n_trap, F, q, a, h, t), simp_int(0, a, n_simp, F, q, a, h, t)};
+	std::vector<double> data = {cent_int(0, a, n_cent, t), trap_int(0, a, n_trap, t), simp_int(0, a, n_simp, t)};
 
 
 	std::ofstream output("data.txt");
@@ -91,8 +98,6 @@ int main()
 		std::copy(data.begin(), data.end(), std::ostream_iterator<int>(output, ","));
 	}
 	else { std::cout << "Could not open output file\n"; }
-
-
 
 
 	return 0;
