@@ -1,0 +1,4 @@
+﻿  g_project.cpp
+D:\mindenis\fizikus szak\mester\4. félév\korszam\g_project\g_project.cpp(26,27): warning C4018: '<': signed/unsigned mismatch
+D:\mindenis\fizikus szak\mester\4. félév\korszam\g_project\g_project.cpp(38,27): warning C4018: '<': signed/unsigned mismatch
+  g_project.vcxproj -> D:\mindenis\fizikus szak\mester\4. félév\korszam\g_project\Debug\g_project.exe
